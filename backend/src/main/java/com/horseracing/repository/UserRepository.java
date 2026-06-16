@@ -14,13 +14,16 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
     Optional<User> findByEmail(String email);
-    
+
+    @Query("SELECT u FROM User u WHERE u.deleted = 0 AND u.username = ?1")
+    Optional<User> findActiveByUsername(String username);
+
+    @Query("SELECT u FROM User u WHERE u.deleted = 0 AND u.email = ?1")
+    Optional<User> findActiveByEmail(String email);
+
+    @Query("SELECT u FROM User u WHERE u.deleted = 0 AND u.role = ?1")
+    Page<User> findByRole(Role role, Pageable pageable);
+
     @Query("SELECT u FROM User u WHERE u.deleted = 0")
     Page<User> findAllActive(Pageable pageable);
-    
-    @Query("SELECT u FROM User u WHERE u.deleted = 0 AND u.role = ?1")
-    Page<User> findByRoleActive(Role role, Pageable pageable);
-    
-    @Query("SELECT u FROM User u WHERE u.deleted = 0 AND (u.username LIKE %?1% OR u.fullName LIKE %?1% OR u.email LIKE %?1%)")
-    Page<User> searchActive(String keyword, Pageable pageable);
 }

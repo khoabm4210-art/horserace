@@ -8,29 +8,22 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface RaceRegistrationRepository extends JpaRepository<RaceRegistration, Long> {
-    @Query("SELECT r FROM RaceRegistration r WHERE r.status = ?1")
-    Page<RaceRegistration> findByStatus(RegistrationStatus status, Pageable pageable);
-    
-    @Query("SELECT r FROM RaceRegistration r WHERE r.race.id = ?1 AND r.status = ?2")
+    @Query("SELECT COUNT(r) FROM RaceRegistration r WHERE r.raceId = ?1 AND r.status = 'APPROVED'")
+    int countApprovedByRace(Long raceId);
+
+    @Query("SELECT r FROM RaceRegistration r WHERE r.deleted = 0 AND r.raceId = ?1 AND r.status = ?2")
     Page<RaceRegistration> findByRaceAndStatus(Long raceId, RegistrationStatus status, Pageable pageable);
-    
-    @Query("SELECT r FROM RaceRegistration r WHERE r.owner.id = ?1")
+
+    @Query("SELECT r FROM RaceRegistration r WHERE r.deleted = 0 AND r.ownerId = ?1")
     Page<RaceRegistration> findByOwner(Long ownerId, Pageable pageable);
-    
-    @Query("SELECT r FROM RaceRegistration r WHERE r.owner.id = ?1 AND r.status = ?2")
-    Page<RaceRegistration> findByOwnerAndStatus(Long ownerId, RegistrationStatus status, Pageable pageable);
-    
-    @Query("SELECT COUNT(r) FROM RaceRegistration r WHERE r.race.id = ?1 AND r.status = 'APPROVED'")
-    long countByRaceAndStatus(Long raceId, RegistrationStatus status);
-    
-    Optional<RaceRegistration> findByRaceIdAndHorseId(Long raceId, Long horseId);
-    Optional<RaceRegistration> findByRaceIdAndJockeyId(Long raceId, Long jockeyId);
-    
-    @Query("SELECT r FROM RaceRegistration r WHERE r.race.id = ?1 AND r.status = 'APPROVED' ORDER BY r.id")
-    List<RaceRegistration> findApprovedByRaceId(Long raceId);
+
+    @Query("SELECT r FROM RaceRegistration r WHERE r.deleted = 0 AND r.raceId = ?1 AND r.horseId = ?2")
+    Optional<RaceRegistration> findByRaceAndHorse(Long raceId, Long horseId);
+
+    @Query("SELECT r FROM RaceRegistration r WHERE r.deleted = 0 AND r.raceId = ?1")
+    Page<RaceRegistration> findByRace(Long raceId, Pageable pageable);
 }

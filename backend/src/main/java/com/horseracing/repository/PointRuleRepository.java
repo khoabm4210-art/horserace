@@ -10,9 +10,9 @@ import java.util.Optional;
 
 @Repository
 public interface PointRuleRepository extends JpaRepository<PointRule, Long> {
-    @Query("SELECT pr FROM PointRule pr WHERE pr.season.id = ?1")
-    List<PointRule> findBySeasonId(Long seasonId);
-    
-    @Query("SELECT pr FROM PointRule pr WHERE pr.season.id = ?1 AND pr.position = ?2")
-    Optional<PointRule> findBySeasonIdAndPosition(Long seasonId, Integer position);
+    @Query("SELECT p FROM PointRule p WHERE p.deleted = 0 AND p.seasonId = ?1 ORDER BY p.position ASC")
+    List<PointRule> findBySeason(Long seasonId);
+
+    @Query("SELECT p FROM PointRule p WHERE p.deleted = 0 AND p.seasonId = ?1 AND p.position = ?2")
+    Optional<PointRule> findBySeasonAndPosition(Long seasonId, Integer position);
 }

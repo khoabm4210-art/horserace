@@ -1,6 +1,7 @@
 package com.horseracing.repository;
 
 import com.horseracing.entity.AuditLog;
+import com.horseracing.enums.AuditAction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,21 +12,12 @@ import java.time.LocalDateTime;
 
 @Repository
 public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
-    @Query("SELECT a FROM AuditLog a WHERE a.user.id = ?1")
-    Page<AuditLog> findByUserId(Long userId, Pageable pageable);
-    
-    @Query("SELECT a FROM AuditLog a WHERE a.action = ?1")
-    Page<AuditLog> findByAction(String action, Pageable pageable);
-    
-    @Query("SELECT a FROM AuditLog a WHERE a.user.id = ?1 AND a.action = ?2")
-    Page<AuditLog> findByUserIdAndAction(Long userId, String action, Pageable pageable);
-    
-    @Query("SELECT a FROM AuditLog a WHERE a.user.id = ?1 AND (?2 IS NULL OR a.createdAt >= ?2) AND (?3 IS NULL OR a.createdAt <= ?3)")
-    Page<AuditLog> findByUserIdAndDateRange(Long userId, LocalDateTime fromDate, LocalDateTime toDate, Pageable pageable);
-    
-    @Query("SELECT a FROM AuditLog a WHERE a.action = ?1 AND (?2 IS NULL OR a.createdAt >= ?2) AND (?3 IS NULL OR a.createdAt <= ?3)")
-    Page<AuditLog> findByActionAndDateRange(String action, LocalDateTime fromDate, LocalDateTime toDate, Pageable pageable);
-    
-    @Query("SELECT a FROM AuditLog a WHERE a.user.id = ?1 AND a.action = ?2 AND (?3 IS NULL OR a.createdAt >= ?3) AND (?4 IS NULL OR a.createdAt <= ?4)")
-    Page<AuditLog> findByUserIdAndActionAndDateRange(Long userId, String action, LocalDateTime fromDate, LocalDateTime toDate, Pageable pageable);
+    @Query("SELECT al FROM AuditLog al WHERE al.userId = ?1 ORDER BY al.createdAt DESC")
+    Page<AuditLog> findByUser(Long userId, Pageable pageable);
+
+    @Query("SELECT al FROM AuditLog al WHERE al.action = ?1 ORDER BY al.createdAt DESC")
+    Page<AuditLog> findByAction(AuditAction action, Pageable pageable);
+
+    @Query("SELECT al FROM AuditLog al WHERE al.createdAt BETWEEN ?1 AND ?2 ORDER BY al.createdAt DESC")
+    Page<AuditLog> findByDateRange(LocalDateTime from, LocalDateTime to, Pageable pageable);
 }

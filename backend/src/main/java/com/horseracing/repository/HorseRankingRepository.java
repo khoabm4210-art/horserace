@@ -11,9 +11,9 @@ import java.util.Optional;
 
 @Repository
 public interface HorseRankingRepository extends JpaRepository<HorseRanking, Long> {
-    @Query("SELECT hr FROM HorseRanking hr WHERE hr.seasonId = ?1")
-    Page<HorseRanking> findBySeasonId(Long seasonId, Pageable pageable);
-    
-    @Query("SELECT hr FROM HorseRanking hr WHERE hr.seasonId = ?1 AND hr.horse.id = ?2")
-    Optional<HorseRanking> findBySeasonIdAndHorseId(Long seasonId, Long horseId);
+    @Query("SELECT hr FROM HorseRanking hr WHERE hr.seasonId = ?1 AND hr.horseId = ?2")
+    Optional<HorseRanking> findBySeasonAndHorse(Long seasonId, Long horseId);
+
+    @Query("SELECT hr FROM HorseRanking hr WHERE hr.seasonId = ?1 ORDER BY hr.totalPoints DESC")
+    Page<HorseRanking> findBySeasonOrderByPoints(Long seasonId, Pageable pageable);
 }
