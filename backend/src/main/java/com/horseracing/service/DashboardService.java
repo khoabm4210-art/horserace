@@ -2,13 +2,13 @@ package com.horseracing.service;
 
 import com.horseracing.dto.response.dashboard.DashboardStatsResponse;
 import com.horseracing.dto.response.race.RaceResponse;
-
-import java.util.List;
+import com.horseracing.dto.response.result.ResultResponse;
+import com.horseracing.dto.response.PageResponse;
 
 public interface DashboardService {
-    DashboardStatsResponse getStats(Long userId);
-    
-    List<RaceResponse> getUpcomingRaces(int limit);
-    
-    List<RaceResponse> getRecentResults(int limit);
+    DashboardStatsResponse getStatsForAdmin();
+    DashboardStatsResponse getStatsForOrganizer();
+    DashboardStatsResponse getStatsForHorseOwner(Long ownerId);
+    PageResponse<RaceResponse> getUpcomingRaces(int page, int size);
+    PageResponse<ResultResponse> getRecentResults(int page, int size);
 }

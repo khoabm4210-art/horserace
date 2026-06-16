@@ -16,7 +16,6 @@ import java.util.UUID;
 @Service
 @ConditionalOnProperty(name = "file.storage-provider", havingValue = "local", matchIfMissing = true)
 public class LocalStorageService implements StorageService {
-    
     @Value("${file.upload-dir:./uploads}")
     private String uploadDir;
 
@@ -33,21 +32,18 @@ public class LocalStorageService implements StorageService {
         Files.createDirectories(dir);
         Files.copy(file.getInputStream(), dir.resolve(fileName));
 
-        log.info("File uploaded: {} to {}/{}", fileName, subPath, fileName);
-        return baseUrl + "/uploads/" + subPath + "/" + fileName;
+        String relativePath = subPath + "/" + fileName;
+        String url = baseUrl + "/uploads/" + relativePath;
+        log.info("File uploaded to: {}", url);
+        return url;
     }
 
     @Override
     public void delete(String fileUrl) throws IOException {
-        try {
-            String relativePath = fileUrl.replaceFirst(baseUrl + "/uploads/", "");
-            Path filePath = Paths.get(uploadDir, relativePath);
-            Files.deleteIfExists(filePath);
-            log.info("File deleted: {}", relativePath);
-        } catch (Exception e) {
-            log.error("Error deleting file: {}", fileUrl, e);
-            throw e;
-        }
+        String relativePath = fileUrl.replace(baseUrl + "/uploads/", "");
+        Path filePath = Paths.get(uploadDir, relativePath);
+        Files.deleteIfExists(filePath);
+        log.info("File deleted: {}", filePath);
     }
 
     @Override
@@ -56,10 +52,9 @@ public class LocalStorageService implements StorageService {
     }
 
     private String getExtension(String filename) {
-        if (filename == null) {
-            return "bin";
+        if (filename == null || !filename.contains(".")) {
+            return "";
         }
-        int lastDot = filename.lastIndexOf('.');
-        return lastDot > 0 ? filename.substring(lastDot + 1).toLowerCase() : "bin";
+        return filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
     }
 }

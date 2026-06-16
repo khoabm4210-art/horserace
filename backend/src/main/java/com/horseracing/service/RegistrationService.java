@@ -1,20 +1,17 @@
 package com.horseracing.service;
 
 import com.horseracing.dto.request.registration.RegistrationCreateRequest;
+import com.horseracing.dto.request.registration.RegistrationRejectRequest;
 import com.horseracing.dto.response.registration.RegistrationResponse;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.horseracing.dto.response.PageResponse;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface RegistrationService {
-    Page<RegistrationResponse> getAllRegistrations(Pageable pageable, Long raceId, String status);
-    
-    Page<RegistrationResponse> getMyRegistrations(Long ownerId, Pageable pageable, String status);
-    
-    RegistrationResponse getRegistrationById(Long id);
-    
     RegistrationResponse createRegistration(RegistrationCreateRequest request, Long ownerId);
-    
-    RegistrationResponse approveRegistration(Long id);
-    
-    RegistrationResponse rejectRegistration(Long id, String reason);
+    RegistrationResponse approveRegistration(Long id, Long approvedBy);
+    RegistrationResponse rejectRegistration(Long id, RegistrationRejectRequest request, Long rejectedBy);
+    RegistrationResponse getRegistration(Long id);
+    PageResponse<RegistrationResponse> getAllRegistrations(int page, int size, Long raceId, String status);
+    PageResponse<RegistrationResponse> getMyRegistrations(Long ownerId, int page, int size, String status);
 }

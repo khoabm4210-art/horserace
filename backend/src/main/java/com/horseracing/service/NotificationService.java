@@ -1,21 +1,14 @@
 package com.horseracing.service;
 
 import com.horseracing.dto.response.notification.NotificationResponse;
-import com.horseracing.enums.NotificationType;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.horseracing.dto.response.PageResponse;
 
 public interface NotificationService {
-    Page<NotificationResponse> getNotifications(Long userId, Pageable pageable, Boolean isRead);
-    
-    NotificationResponse markAsRead(Long notificationId);
-    
+    void sendApprovalNotification(Long userId, String title, String message, String targetType, Long targetId);
+    void sendRejectionNotification(Long userId, String title, String message, String targetType, Long targetId);
+    void broadcastResultNotification(String title, String message, String targetType, Long targetId);
+    PageResponse<NotificationResponse> getNotifications(Long userId, int page, int size, Boolean isRead);
+    void markAsRead(Long notificationId);
     void markAllAsRead(Long userId);
-    
     long getUnreadCount(Long userId);
-    
-    void createNotification(Long userId, String title, String message, NotificationType type, 
-                           String targetType, Long targetId);
-    
-    void createBroadcastNotification(String title, String message, NotificationType type);
 }

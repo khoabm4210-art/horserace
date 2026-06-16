@@ -4,9 +4,8 @@ import com.horseracing.dto.request.result.ResultEntryRequest;
 import com.horseracing.dto.response.result.ResultResponse;
 
 public interface ResultService {
-    ResultResponse createOrUpdateResult(Long raceId, ResultEntryRequest request);
-    
-    ResultResponse getResultByRaceId(Long raceId);
-    
-    ResultResponse publishResult(Long raceId);
+    ResultResponse entryResult(ResultEntryRequest request, Long enteredBy);
+    ResultResponse updateResult(Long raceId, ResultEntryRequest request, Long updatedBy);
+    ResultResponse publishResult(Long raceId, Long publishedBy);
+    ResultResponse getResult(Long raceId);
 }
