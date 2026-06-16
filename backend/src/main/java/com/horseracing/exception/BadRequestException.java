@@ -1,7 +1,7 @@
 package com.horseracing.exception;
 
-public class BadRequestException extends RuntimeException {
+public class BadRequestException extends CustomException {
     public BadRequestException(String message) {
-        super(message);
+        super(400, message);
     }
 }

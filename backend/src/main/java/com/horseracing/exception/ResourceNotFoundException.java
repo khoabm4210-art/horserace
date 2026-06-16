@@ -1,7 +1,7 @@
 package com.horseracing.exception;
 
-public class ResourceNotFoundException extends RuntimeException {
+public class ResourceNotFoundException extends CustomException {
     public ResourceNotFoundException(String message) {
-        super(message);
+        super(404, message);
     }
 }

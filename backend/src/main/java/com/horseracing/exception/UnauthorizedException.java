@@ -1,7 +1,7 @@
 package com.horseracing.exception;
 
-public class UnauthorizedException extends RuntimeException {
+public class UnauthorizedException extends CustomException {
     public UnauthorizedException(String message) {
-        super(message);
+        super(401, message);
     }
 }
