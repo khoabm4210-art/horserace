@@ -1,0 +1,47 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: horse-racing-backend
+  datasource:
+    url: jdbc:mysql://localhost:3306/horse_racing_db?useSSL=false&serverTimezone=Asia/Ho_Chi_Minh&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+      hibernate.format_sql: true
+      hibernate.use_sql_comments: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+
+jwt:
+  secret: your-256-bit-secret-key-minimum-32-characters-long-value
+  access-token-expiration: 3600000
+  refresh-token-expiration: 604800000
+
+file:
+  upload-dir: ./uploads
+  allowed-extensions: jpg,jpeg,png,gif,pdf
+  max-size-bytes: 5242880
+  storage-provider: local
+  base-url: http://localhost:8080
+
+cors:
+  allowed-origins:
+    - http://localhost:5173
+    - http://localhost:3000
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha

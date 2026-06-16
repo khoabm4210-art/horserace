@@ -1,0 +1,20 @@
+package com.horseracing.enums;
+
+public enum AuditAction {
+    LOGIN,
+    LOGOUT,
+    CREATE,
+    UPDATE,
+    DELETE,
+    APPROVE_HORSE,
+    REJECT_HORSE,
+    DISQUALIFY_HORSE,
+    APPROVE_JOCKEY,
+    REJECT_JOCKEY,
+    APPROVE_REGISTRATION,
+    REJECT_REGISTRATION,
+    PUBLISH_RESULT,
+    UPLOAD_FILE,
+    LOCK_USER,
+    CHANGE_ROLE
+}
