@@ -27,13 +27,11 @@ public class RaceResultDetail {
     @JoinColumn(name = "registration_id", nullable = false)
     private RaceRegistration registration;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "horse_id", nullable = false)
-    private Horse horse;
+    @Column(name = "horse_id", nullable = false)
+    private Long horseId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "jockey_id", nullable = false)
-    private Jockey jockey;
+    @Column(name = "jockey_id", nullable = false)
+    private Long jockeyId;
 
     @Column(nullable = false)
     private Integer finishPosition;

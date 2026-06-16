@@ -1,6 +1,5 @@
 package com.horseracing.entity;
 
-import com.horseracing.enums.FileType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,9 +28,8 @@ public class FileUpload {
     @Column(length = 100)
     private String fileType;
 
-    @Enumerated(EnumType.STRING)
     @Column(length = 50)
-    private FileType fileCategory;
+    private String fileCategory;
 
     @Column
     private Long fileSize;

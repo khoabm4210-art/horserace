@@ -1,6 +1,5 @@
 package com.horseracing.entity;
 
-import com.horseracing.enums.AuditAction;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,9 +30,8 @@ public class AuditLog {
     @Column(length = 50)
     private String username;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 100)
-    private AuditAction action;
+    private String action;
 
     @Column(length = 50)
     private String targetType;

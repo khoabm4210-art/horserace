@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "horse_rankings", uniqueConstraints = {
-    @UniqueConstraint(name = "uq_horse_season", columnNames = {"horse_id", "season_id"})
+    @UniqueConstraint(name = "uq_horse_season", columnNames = {"season_id", "horse_id"})
 })
 @Data
 @Builder
@@ -21,9 +21,8 @@ public class HorseRanking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "season_id", nullable = false)
-    private Season season;
+    @Column(nullable = false)
+    private Long seasonId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "horse_id", nullable = false)

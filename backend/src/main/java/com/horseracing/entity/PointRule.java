@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "point_rules", indexes = {
-    @Index(name = "idx_season_position", columnList = "season_id, position")
-}, uniqueConstraints = {
+@Table(name = "point_rules", uniqueConstraints = {
     @UniqueConstraint(name = "uq_season_position", columnNames = {"season_id", "position"})
 })
 @Data
@@ -28,7 +26,7 @@ public class PointRule {
     private Season season;
 
     @Column(nullable = false)
-    private Integer position;
+    private Integer position;  // 1, 2, 3, 4, 5, 99 (fallback)
 
     @Column(nullable = false)
     private Integer point;

@@ -32,7 +32,7 @@ public class RequestHistory {
     private String toStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "action_by", nullable = false)
+    @JoinColumn(name = "action_by")
     private User actionBy;
 
     @Column(columnDefinition = "TEXT")
